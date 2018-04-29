@@ -18,42 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package trip
 
 import (
 	"fmt"
 	"gonow/location"
-	"gonow/trip"
-	"os"
-
-	"github.com/spf13/cobra"
 )
 
-var posA, posB string
+const (
+	baseURL = "api.sl.se/api2/TravelplannerV3/trip.json?"
+	langVal = "se"
+)
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "gonow",
-	Short: "Search your next trip with SL",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		places := location.SearchPlaces(posA, posB)
-		trip.SearchNow(places[0], places[1])
-	},
-}
-
-func init() {
-	rootCmd.Flags().StringVarP(&posA, "from", "a", "", "Traveling from")
-	rootCmd.Flags().StringVarP(&posB, "to", "b", "", "Traveling to")
-	rootCmd.MarkFlagRequired("from")
-	rootCmd.MarkFlagRequired("to")
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+// SearchNow finds the next five trips between the specified places
+func SearchNow(from, to location.Place) {
+	fmt.Printf("Will find trip: %s => %s\n", from.Name, to.Name)
 }

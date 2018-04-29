@@ -25,6 +25,7 @@ import (
 	"gonow/location"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -47,4 +48,14 @@ func init() {
 // SearchNow finds the next five trips between the specified places
 func SearchNow(from, to location.Place) {
 	fmt.Printf("Will find trip: %s => %s\n", from.Name, to.Name)
+	searchTrip(from, to)
+}
+
+func searchTrip(from, to location.Place) {
+	url := baseURL + "key=" + apiKey
+	url += "&originExtId=" + strconv.Itoa(from.SiteID)
+	url += "&destExtId=" + strconv.Itoa(to.SiteID)
+	url += "&lang=" + langVal
+
+	fmt.Println(url)
 }

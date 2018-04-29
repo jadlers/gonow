@@ -21,7 +21,9 @@
 package location
 
 import (
+	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -62,7 +64,9 @@ func searchPlace(name string) Place {
 	url += "&maxresults=" + strconv.Itoa(maxResultsVal)
 	url += "&key=" + apiKey
 
-	return Place{Name: name}
+	res := makeSearchRequest(url)
+
+	return res.ResponseData[0]
 }
 
 func strbool(b bool) string {
@@ -70,4 +74,19 @@ func strbool(b bool) string {
 		return "True"
 	}
 	return "False"
+}
+
+func makeSearchRequest(url string) SearchResponse {
+	res, err := http.Get(url)
+	if err != nil {
+		log.Printf("Could not complete http request\n%s\n", err)
+	}
+	defer res.Body.Close()
+
+	var searchRes SearchResponse
+	if err := json.NewDecoder(res.Body).Decode(&searchRes); err != nil {
+		log.Println(err)
+	}
+
+	return searchRes
 }

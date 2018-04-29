@@ -23,7 +23,7 @@ package location
 // Place is a location with a name, an id, type and long/lat coordinates
 type Place struct {
 	Name    string `json:"Name"`
-	SiteID  int    `json:"SiteId"`
+	SiteID  int    `json:"SiteId,string"`
 	PosType string `json:"Type"`
 	X       string `json:"X"`
 	Y       string `json:"Y"`

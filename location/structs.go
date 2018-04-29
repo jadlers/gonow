@@ -18,43 +18,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package cmd
+package location
 
-import (
-	"fmt"
-	"gonow/location"
-	"os"
-
-	"github.com/spf13/cobra"
-)
-
-var posA, posB string
-
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "gonow",
-	Short: "Search your next trip with SL",
-
-	Run: func(cmd *cobra.Command, args []string) {
-		places := location.SearchPlaces(posA, posB)
-		for _, place := range places {
-			fmt.Println(place)
-		}
-	},
+// Place is a location with a name, an id, type and long/lat coordinates
+type Place struct {
+	Name    string `json:"Name"`
+	SiteID  int    `json:"SiteId"`
+	PosType string `json:"Type"`
+	X       string `json:"X"`
+	Y       string `json:"Y"`
 }
 
-func init() {
-	rootCmd.Flags().StringVarP(&posA, "from", "a", "", "Traveling from")
-	rootCmd.Flags().StringVarP(&posB, "to", "b", "", "Traveling to")
-	rootCmd.MarkFlagRequired("from")
-	rootCmd.MarkFlagRequired("to")
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+// SearchResponse is the response you get from SL Platsupslag
+type SearchResponse struct {
+	StatusCode    int     `json:"StatusCode"`
+	Message       string  `json:"Message"`
+	ExecutionTime int     `json:"ExecutionTime"`
+	ResponseData  []Place `json:"ResponseData"`
 }

@@ -21,9 +21,11 @@
 package trip
 
 import (
+	"encoding/json"
 	"fmt"
 	"gonow/location"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -58,4 +60,19 @@ func searchTrip(from, to location.Place) {
 	url += "&lang=" + langVal
 
 	fmt.Println(url)
+}
+
+func makeSearchRequest(url string) SearchTripResponse {
+	res, err := http.Get(url)
+	if err != nil {
+		log.Printf("Could not complete http request\n%s\n", err)
+	}
+	defer res.Body.Close()
+
+	var searchRes SearchTripResponse
+	if err := json.NewDecoder(res.Body).Decode(&searchRes); err != nil {
+		log.Println(err)
+	}
+
+	return searchRes
 }

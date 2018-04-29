@@ -23,12 +23,26 @@ package trip
 import (
 	"fmt"
 	"gonow/location"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 const (
 	baseURL = "api.sl.se/api2/TravelplannerV3/trip.json?"
 	langVal = "se"
 )
+
+var apiKey string
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file which is needed for API calls.")
+	}
+	apiKey = os.Getenv("RESEPLANERARE_KEY")
+}
 
 // SearchNow finds the next five trips between the specified places
 func SearchNow(from, to location.Place) {

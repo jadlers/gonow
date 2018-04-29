@@ -1,5 +1,7 @@
-
 # Created by https://www.gitignore.io/api/go,visualstudiocode,vim,macos
+
+### gonow ###
+.env
 
 ### Go ###
 # Binaries for programs and plugins

@@ -21,7 +21,11 @@
 package location
 
 import (
+	"log"
+	"os"
 	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -29,6 +33,16 @@ const (
 	stationsOnlyVal = true
 	maxResultsVal   = 1
 )
+
+var apiKey string
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file which is needed for API calls.")
+	}
+	apiKey = os.Getenv("PLATSUPPSLAG_KEY")
+}
 
 // SearchPlaces looks for places named after the arguments and returns Place
 // structs
@@ -46,6 +60,7 @@ func searchPlace(name string) Place {
 	url := baseURL + "searchstring=" + name
 	url += "&stationsonly=" + strbool(stationsOnlyVal)
 	url += "&maxresults=" + strconv.Itoa(maxResultsVal)
+	url += "&key=" + apiKey
 
 	return Place{Name: name}
 }

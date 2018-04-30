@@ -26,11 +26,8 @@ import (
 	"gonow/location"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
-
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -41,11 +38,9 @@ const (
 var apiKey string
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file which is needed for API calls.")
+	if apiKey == "" {
+		log.Fatal("No api key for trip")
 	}
-	apiKey = os.Getenv("RESEPLANERARE_KEY")
 }
 
 // SearchNow finds the next five trips between the specified places

@@ -2,6 +2,7 @@
 
 ### gonow ###
 .env
+Makefile
 
 ### Go ###
 # Binaries for programs and plugins

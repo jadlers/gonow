@@ -24,10 +24,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -36,14 +33,17 @@ const (
 	maxResultsVal   = 1
 )
 
-var apiKey string
+var apiKey = ""
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file which is needed for API calls.")
+	if apiKey == "" {
+		log.Fatal("No api key for location")
 	}
-	apiKey = os.Getenv("PLATSUPPSLAG_KEY")
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file which is needed for API calls.")
+	// }
+	// apiKey = os.Getenv("PLATSUPPSLAG_KEY")
 }
 
 // SearchPlaces looks for places named after the arguments and returns Place

@@ -51,17 +51,28 @@ func init() {
 // SearchNow finds the next five trips between the specified places
 func SearchNow(from, to location.Place) [][]SubTrip {
 	fmt.Printf("%s => %s\n", from.Name, to.Name)
-	foundTrips := searchTrip(from, to)
+	searchURL := searchTripBetweenURL(from, to)
+	foundTrips := makeSearchRequest(searchURL)
 	return createSubTrips(foundTrips)
 }
 
-func searchTrip(from, to location.Place) SearchTripResponse {
+// SearchTime finds the next trips between the places from the given time
+func SearchTime(from, to location.Place, time string) [][]SubTrip {
+	fmt.Printf("%s => %s\n", from.Name, to.Name)
+	searchURL := searchTripBetweenURL(from, to)
+	searchURL += "&time=" + time
+
+	foundTrips := makeSearchRequest(searchURL)
+	return createSubTrips(foundTrips)
+}
+
+func searchTripBetweenURL(from, to location.Place) string {
 	url := baseURL + "key=" + apiKey
 	url += "&originExtId=" + strconv.Itoa(from.SiteID)
 	url += "&destExtId=" + strconv.Itoa(to.SiteID)
 	url += "&lang=" + langVal
 
-	return makeSearchRequest(url)
+	return url
 }
 
 func makeSearchRequest(url string) SearchTripResponse {

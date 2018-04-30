@@ -30,6 +30,7 @@ import (
 )
 
 var posA, posB string
+var time string
 var outCompact bool
 
 // rootCmd represents the base command when called without any subcommands
@@ -40,7 +41,13 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		places := location.SearchPlaces(posA, posB)
 
-		tripList := trip.SearchNow(places[0], places[1])
+		var tripList [][]trip.SubTrip
+		if time == "" {
+			tripList = trip.SearchNow(places[0], places[1])
+		} else {
+			tripList = trip.SearchTime(places[0], places[1], time)
+		}
+
 		if outCompact {
 			trip.PrintCompact(tripList)
 		} else {
@@ -56,6 +63,7 @@ func init() {
 	rootCmd.MarkFlagRequired("to")
 
 	rootCmd.Flags().BoolVarP(&outCompact, "compact", "c", false, "Compact output")
+	rootCmd.Flags().StringVarP(&time, "time", "t", "", "Time for trip departure")
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

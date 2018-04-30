@@ -29,7 +29,8 @@ package trip
 // SubTrip is one part of a trip
 type SubTrip struct {
 	Date      string
-	Time      string
+	DepTime   string
+	ArrTime   string
 	From      string
 	To        string
 	Direction string

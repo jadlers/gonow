@@ -38,7 +38,12 @@ var rootCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		places := location.SearchPlaces(posA, posB)
-		trip.SearchNow(places[0], places[1])
+
+		tripList := trip.SearchNow(places[0], places[1])
+		for i, v := range tripList {
+			fmt.Printf("%d.", i+1)
+			trip.Print(v)
+		}
 	},
 }
 

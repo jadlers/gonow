@@ -28,6 +28,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -86,8 +87,8 @@ func createSubTrips(res SearchTripResponse) [][]SubTrip {
 		for _, sub := range trip.LegList.Leg {
 			st := SubTrip{
 				Date:      sub.Origin.Date,
-				DepTime:   sub.Origin.Time,
-				ArrTime:   sub.Destination.Time,
+				DepTime:   formatTime(sub.Origin.Time),
+				ArrTime:   formatTime(sub.Destination.Time),
 				From:      sub.Origin.Name,
 				To:        sub.Destination.Name,
 				Direction: sub.Direction,
@@ -102,4 +103,9 @@ func createSubTrips(res SearchTripResponse) [][]SubTrip {
 	}
 
 	return trips
+}
+
+func formatTime(time string) string {
+	exploded := strings.Split(time, ":")
+	return strings.Join(exploded[:2], ":")
 }

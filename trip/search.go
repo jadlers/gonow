@@ -48,18 +48,19 @@ func init() {
 }
 
 // SearchNow finds the next five trips between the specified places
-func SearchNow(from, to location.Place) {
+func SearchNow(from, to location.Place) [][]SubTrip {
 	fmt.Printf("Will find trip: %s => %s\n", from.Name, to.Name)
-	searchTrip(from, to)
+	foundTrips := searchTrip(from, to)
+	return createSubTrips(foundTrips)
 }
 
-func searchTrip(from, to location.Place) {
+func searchTrip(from, to location.Place) SearchTripResponse {
 	url := baseURL + "key=" + apiKey
 	url += "&originExtId=" + strconv.Itoa(from.SiteID)
 	url += "&destExtId=" + strconv.Itoa(to.SiteID)
 	url += "&lang=" + langVal
 
-	fmt.Println(url)
+	return makeSearchRequest(url)
 }
 
 func makeSearchRequest(url string) SearchTripResponse {
@@ -75,4 +76,30 @@ func makeSearchRequest(url string) SearchTripResponse {
 	}
 
 	return searchRes
+}
+
+func createSubTrips(res SearchTripResponse) [][]SubTrip {
+	var trips [][]SubTrip
+
+	for i, trip := range res.Trip {
+		trips = append(trips, []SubTrip{})
+		for _, sub := range trip.LegList.Leg {
+			st := SubTrip{
+				Date:      sub.Origin.Date,
+				DepTime:   sub.Origin.Time,
+				ArrTime:   sub.Destination.Time,
+				From:      sub.Origin.Name,
+				To:        sub.Destination.Name,
+				Direction: sub.Direction,
+			}
+			if sub.Type == "JNY" {
+				st.Type = sub.Product.CatIn + " " + sub.Product.Line
+			} else {
+				st.Type = sub.Type
+			}
+			trips[i] = append(trips[i], st)
+		}
+	}
+
+	return trips
 }

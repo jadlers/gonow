@@ -50,7 +50,7 @@ func init() {
 
 // SearchNow finds the next five trips between the specified places
 func SearchNow(from, to location.Place) [][]SubTrip {
-	fmt.Printf("Will find trip: %s => %s\n", from.Name, to.Name)
+	fmt.Printf("%s => %s\n", from.Name, to.Name)
 	foundTrips := searchTrip(from, to)
 	return createSubTrips(foundTrips)
 }

@@ -31,7 +31,7 @@ import (
 )
 
 const (
-	baseURL         = "http://api.sl.se/api2/typeahead.json?"
+	baseURL         = "https://api.sl.se/api2/typeahead.json?"
 	stationsOnlyVal = true
 	maxResultsVal   = 1
 )

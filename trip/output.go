@@ -8,12 +8,15 @@ import (
 // Print all subtrips
 func Print(alternatives [][]SubTrip) {
 	for i, alt := range alternatives {
-		fmt.Printf("%d.", i+1)
+		fmt.Printf("\n%d.", i+1)
 
 		for _, t := range alt {
-			if t.Type != "WALK" {
-				fmt.Printf("\t%s %s -> %s %s (%s towards %s)\n",
-					t.DepTime, t.From, t.To, t.ArrTime, myTitleCase(t.Type), t.Direction)
+			fmt.Printf("\t%s %s -> %s %s ", t.DepTime, t.From, t.To, t.ArrTime)
+
+			if t.Type == "WALK" {
+				fmt.Printf(" (%s)\n", myTitleCase(t.Type))
+			} else {
+				fmt.Printf(" (%s towards %s)\n", myTitleCase(t.Type), t.Direction)
 			}
 		}
 	}

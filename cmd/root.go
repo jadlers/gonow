@@ -22,10 +22,10 @@ package cmd
 
 import (
 	"fmt"
-	"gonow/location"
-	"gonow/trip"
 	"os"
 
+	"github.com/jadlers/gonow/location"
+	"github.com/jadlers/gonow/trip"
 	"github.com/spf13/cobra"
 )
 

@@ -20,7 +20,7 @@
 
 package main
 
-import "gonow/cmd"
+import "github.com/jadlers/gonow/cmd"
 
 func main() {
 	cmd.Execute()

@@ -23,11 +23,12 @@ package trip
 import (
 	"encoding/json"
 	"fmt"
-	"gonow/location"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/jadlers/gonow/location"
 )
 
 const (

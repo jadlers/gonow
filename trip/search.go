@@ -32,7 +32,7 @@ import (
 )
 
 const (
-	baseURL = "https://api.sl.se/api2/TravelplannerV3/trip.json?"
+	baseURL = "https://api.sl.se/api2/TravelplannerV3_1/trip.json?"
 	langVal = "se"
 )
 
